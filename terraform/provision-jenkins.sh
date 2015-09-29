@@ -51,7 +51,7 @@ sudo npm install -g mocha
 #sudo ln -s /usr/local/bin/node-waf /usr/bin/node-waf
 
 # install Junit Reporter
-sudo npm install -g mocha-junit-reporter
+sudo npm install mocha-junit-reporter --save-dev
 
 pushd .
 cd /usr/local/bin
