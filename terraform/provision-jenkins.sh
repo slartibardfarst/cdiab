@@ -27,21 +27,26 @@ sudo service docker restart
 #newgrp docker
 
 #Node
-pushd .
-cd /tmp
-sudo wget https://nodejs.org/dist/v4.1.1/node-v4.1.1-linux-x64.tar.gz
-sudo tar --strip-components 1 -xzvf node-v* -C /usr/local
-popd
+#pushd .
+#cd /tmp
+#sudo wget https://nodejs.org/dist/v4.1.1/node-v4.1.1-linux-x64.tar.gz
+#sudo tar --strip-components 1 -xzvf node-v* -C /usr/local
+#popd
 
+#install Node.js and npm
+cd /tmp
+curl -sL https://rpm.nodesource.com/setup | bash -
+yum install -y nodejs
+yum install -y npm
 
 # install Mocha
 sudo npm install -g mocha
 
 #Fix the links so sudo npm works:
-sudo ln -s /usr/local/bin/node /usr/bin/node
-sudo ln -s /usr/local/lib/node /usr/lib/node
-sudo ln -s /usr/local/bin/npm /usr/bin/npm
-sudo ln -s /usr/local/bin/node-waf /usr/bin/node-waf
+#sudo ln -s /usr/local/bin/node /usr/bin/node
+#sudo ln -s /usr/local/lib/node /usr/lib/node
+#sudo ln -s /usr/local/bin/npm /usr/bin/npm
+#sudo ln -s /usr/local/bin/node-waf /usr/bin/node-waf
 
 # install Junit Reporter
 sudo npm install -g mocha-junit-reporter
