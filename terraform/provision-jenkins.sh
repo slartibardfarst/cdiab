@@ -34,10 +34,12 @@ sudo service docker restart
 #popd
 
 #install Node.js and npm
+pushd .
 cd /tmp
-curl -sL https://rpm.nodesource.com/setup | bash -
-yum install -y nodejs
-yum install -y npm
+curl -sL https://rpm.nodesource.com/setup_4.x | bash -
+sudo yum install -y nodejs
+sudo yum install -y npm
+popd
 
 # install Mocha
 sudo npm install -g mocha
