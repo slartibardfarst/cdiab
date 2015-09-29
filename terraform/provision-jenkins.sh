@@ -52,3 +52,8 @@ sudo npm install -g mocha
 
 # install Junit Reporter
 sudo npm install -g mocha-junit-reporter
+
+pushd .
+cd /usr/local/bin
+sudo wget https://dl.bintray.com/mitchellh/terraform/terraform_0.6.3_linux_amd64.zip
+unzip terraform_0.6.3_linux_amd64.zip
