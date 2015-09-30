@@ -8,8 +8,7 @@ sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenk
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 sudo yum -y install jenkins
 
-sudo service jenkins start
-sudo chkconfig jenkins on
+
 
 # Docker
 if [rpm -qa | grep docker | wc -l > 0]; then
@@ -18,13 +17,17 @@ else
    curl -sSL https://get.docker.com/ | sh
 fi
 
+sudo groupadd docker
+sudo gpasswd -a ${USER} docker
+sudo gpasswd -a jenkins docker
+sudo service docker restart
+#newgrp docker
+
 sudo service docker start
 sudo chkconfig docker on
 
-sudo groupadd docker
-sudo gpasswd -a ${USER} docker
-sudo service docker restart
-#newgrp docker
+sudo service jenkins start
+sudo chkconfig jenkins on
 
 #Node
 #pushd .
