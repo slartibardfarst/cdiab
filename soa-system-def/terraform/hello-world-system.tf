@@ -1,8 +1,9 @@
 provider "aws" {
-    access_key = "ASIAIXPK3H4S5VEDZD7Q"
-    secret_key = "DuRYLNUq71+3dX9YAurkpLSpxWpT1tYS2da93vQH"
+    access_key = " ASIAIK7HA6QUPXNKSS2Q"
+    secret_key = "Lg07fbY/tlNgyIvemd0rnIMZwQCRklBSIwk3tolE"
     region = "us-west-2"
 }
+
 
 resource "aws_instance" "ecs-docker-host" {
   count = "${var.instance_count}"
@@ -11,7 +12,7 @@ resource "aws_instance" "ecs-docker-host" {
   key_name = "${var.key_name}"
   security_groups = ["${split(",", var.aws_security_group)}"]
   subnet_id = "${var.aws_vpc_subnet}"
-  iam_instance_profile = "${var.iam}"
+  #iam_instance_profile = "${var.iam}"
   user_data = "${template_file.userdata_node_provisioner.rendered}"
 
   tags {
@@ -34,19 +35,19 @@ resource "template_file" "userdata_node_provisioner" {
     ecs_cluster="${var.instance_prefix}"
   }
 }
-
-resource "aws_ecs_service" "hello-world-ecs-service" {
-  name = "${var.instance_prefix}"
-  cluster = "${aws_ecs_cluster.hello-world.id}"
-  task_definition = "${aws_ecs_task_definition.hello-world.arn}"
-  desired_count = "${var.instance_count}"
-}
-
-resource "aws_ecs_cluster" "hello-world" {
-  name = "${var.instance_prefix}"
-}
-
-resource "aws_ecs_task_definition" "hello-world" {
-  family = "${var.instance_prefix}"
-  container_definitions = "${file("task-definitions.json")}"
-}
+#
+#resource "aws_ecs_service" "hello-world-ecs-service" {
+#  name = "${var.instance_prefix}"
+#  cluster = "${aws_ecs_cluster.hello-world.id}"
+#  task_definition = "${aws_ecs_task_definition.hello-world.arn}"
+#  desired_count = "${var.instance_count}"
+#}
+#
+#resource "aws_ecs_cluster" "hello-world" {
+#  name = "${var.instance_prefix}"
+#}
+#
+#resource "aws_ecs_task_definition" "hello-world" {
+#  family = "${var.instance_prefix}"
+#  container_definitions = "${file("task-definitions.json")}"
+#}
