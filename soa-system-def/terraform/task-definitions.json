@@ -1,0 +1,19 @@
+[{
+		cpu : 50,
+		command : [
+			"node",
+			"/data/app/sds.rezone.geocoderapi/server.js"
+		],
+		environment : [],
+		essential : true,
+		image : "eonno/geocoder",
+		links : [],
+		memory : 500,
+		name : "geocoder",
+		portMappings : [{
+				containerPort : 3000,
+				hostPort : 80
+			}
+		]
+	}
+]
