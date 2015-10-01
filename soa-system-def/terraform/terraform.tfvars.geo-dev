@@ -1,5 +1,4 @@
 key_name = "andrew-geo-dev-key-pair"
-key_path = "/var/lib/jenkins/.ssh/id_rsa"
 
 environment = "dev"
 aws_private_dns = "Z1XORO2MKGWHQY"

@@ -43,7 +43,7 @@ variable "instance_type" {
 
 variable "instance_prefix" {
   description = "Prefix to add to instance names"
-  default = "geocoder"
+  default = "aw"
 }
 
 variable "instance_count" {
@@ -51,10 +51,10 @@ variable "instance_count" {
   default = 1
 }
 
-variable "container_name" {
-  description = "Name of the pipeline api container"
-  default = "geocoder"
-}
+#variable "container_name" {
+#  description = "Name of the pipeline api container"
+#  default = "geocoder"
+#}
 
 variable "container_port" {
   description = "Port of the pipeline api container"
