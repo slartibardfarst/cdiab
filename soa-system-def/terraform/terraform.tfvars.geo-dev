@@ -1,4 +1,4 @@
-key_name = "andrew-geo-dev-key-pair"
+key_name = "andrews-geo-dev-key-pair"
 
 environment = "dev"
 aws_private_dns = "Z1XORO2MKGWHQY"

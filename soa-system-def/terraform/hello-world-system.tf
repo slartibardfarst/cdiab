@@ -2,27 +2,26 @@ provider "aws" {
     region = "us-west-2"
 }
 
-
 resource "aws_instance" "ecs-docker-host" {
-  count = "${var.instance_count}"
-  instance_type = "${var.instance_type}"
-  ami = "${var.aws_ami}"  
-  key_name = "${var.key_name}"
-  security_groups = ["${split(",", var.aws_security_group)}"]
-  subnet_id = "${var.aws_vpc_subnet}"
-  #iam_instance_profile = "${var.iam}"
-  user_data = "${template_file.userdata_node_provisioner.rendered}"
-
-  tags {
-    Name = "${var.instance_prefix}-${var.environment}-${count.index}"
-    Index = "${count.index}"
-    Service = "hello-world-system"
-    Environment = "${var.environment}"
-  }
-
-  provisioner "local-exec" {
-    command = "sleep 50"
-  }
+    count = "${var.instance_count}"
+    instance_type = "${var.instance_type}"
+    ami = "${var.aws_ami}"  
+    security_groups = ["${split(",", var.aws_security_group)}"]
+    subnet_id = "${var.aws_vpc_subnet}"
+    key_name = "${var.key_name}"
+    #iam_instance_profile = "${var.iam}"
+    user_data = "${template_file.userdata_node_provisioner.rendered}"
+    
+    tags {
+      Name = "${var.instance_prefix}-${var.environment}-${count.index}"
+      Index = "${count.index}"
+      Service = "hello-world-system"
+      Environment = "${var.environment}"
+    }
+    
+    #provisioner "local-exec" {
+    #  command = "sleep 50"
+    #}
 }
 
 resource "template_file" "userdata_node_provisioner" {
