@@ -2,6 +2,68 @@ provider "aws" {
     region = "us-west-2"
 }
 
+resource "aws_iam_role" "ecs-role" {
+  name = "${var.instance_prefix}-ecs-role"
+  path = "/"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+      "Service": "ec2.amazonaws.com"
+    },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "instance-profile" {
+  name = "${var.instance_prefix}-ecs-instance-profile"
+  roles = ["${aws_iam_role.ecs-role.name}"]
+}
+
+
+resource "aws_iam_role_policy" "inline-policy" {
+  name = "${var.instance_prefix}-ecs-inline_policy"
+  role = "${aws_iam_role.ecs-role.name}"
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:*",
+        "elasticloadbalancing:*",
+        "cloudwatch:*",
+        "autoscaling:*",
+        "s3:*",
+        "sns:*",
+        "sqs:*",
+        "logs:*",
+        "ecs:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+      "logs:*"
+      ],
+      "Resource": [
+        "arn:aws:logs:*:*:*"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_instance" "ecs-docker-host" {
     count = "${var.instance_count}"
     instance_type = "${var.instance_type}"
@@ -9,7 +71,7 @@ resource "aws_instance" "ecs-docker-host" {
     security_groups = ["${split(",", var.aws_security_group)}"]
     subnet_id = "${var.aws_vpc_subnet}"
     key_name = "${var.key_name}"
-    #iam_instance_profile = "${var.iam}"
+    iam_instance_profile = "${aws_iam_instance_profile.instance-profile.name}"
     user_data = "${template_file.userdata_node_provisioner.rendered}"
     
     tags {
@@ -32,7 +94,8 @@ resource "template_file" "userdata_node_provisioner" {
     ecs_cluster="${var.instance_prefix}"
   }
 }
-#
+
+
 #resource "aws_ecs_service" "hello-world-ecs-service" {
 #  name = "${var.instance_prefix}"
 #  cluster = "${aws_ecs_cluster.hello-world.id}"

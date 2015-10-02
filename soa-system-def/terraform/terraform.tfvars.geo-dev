@@ -2,7 +2,7 @@ key_name = "andrews-geo-dev-key-pair"
 
 environment = "dev"
 aws_private_dns = "Z1XORO2MKGWHQY"
-instance_type = "t2.medium"
+instance_type = "t2.micro"
 instance_count = 1
 aws_ami = "ami-49d0cd79"
 aws_security_group = "sg-87fe40e3"
