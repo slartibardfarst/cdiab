@@ -29,9 +29,9 @@ variable "aws_vpc_subnet" {
   description = "AWS region to place a single server.  This can be a public or private subnet."
 }
 
-#variable "aws_vpc_subnets" {
-#  description = "AWS region to place an ELB or ASG.  This will be a list of public or private subnets."
-#}
+variable "aws_vpc_subnets" {
+  description = "AWS region to place an ELB or ASG.  This will be a list of public or private subnets."
+}
 
 variable "environment" {
   description = "AWS environment destination"

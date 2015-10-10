@@ -1,18 +1,18 @@
 [{
-		cpu : 50,
-		command : [
+		"cpu" : 50,
+		"command" : [
 			"node",
-			"/data/app/sds.rezone.geocoderapi/server.js"
+			"app/index.js"
 		],
-		environment : [],
-		essential : true,
-		image : "eonno/geocoder",
-		links : [],
-		memory : 500,
-		name : "geocoder",
-		portMappings : [{
-				containerPort : 3000,
-				hostPort : 80
+		"environment": [],
+		"essential" : true,
+		"image" : "awatkins/node-hello.0.0.1234.13",
+		"links" : [],
+		"memory" : 500,
+		"name" : "node-hello",
+		"portMappings" : [{
+				"containerPort" : 3000,
+				"hostPort" : 80
 			}
 		]
 	}

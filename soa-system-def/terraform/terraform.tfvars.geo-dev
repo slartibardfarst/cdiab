@@ -1,9 +1,10 @@
 key_name = "andrews-geo-dev-key-pair"
 
 environment = "dev"
-aws_private_dns = "Z1XORO2MKGWHQY"
 instance_type = "t2.micro"
-instance_count = 1
-aws_ami = "ami-49d0cd79"
+instance_count = 3
+aws_ami = "ami-dc2fcbef"
 aws_security_group = "sg-87fe40e3"
 aws_vpc_subnet = "subnet-4591171c"
+aws_vpc_subnets = "subnet-8ab6dbfd,subnet-72a8e717,subnet-4591171c"
+aws_private_dns = "Z1XORO2MKGWHQY"
