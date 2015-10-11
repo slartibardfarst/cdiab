@@ -14,8 +14,9 @@ fi
 sudo groupadd docker
 sudo gpasswd -a ${USER} docker
 sudo gpasswd -a jenkins docker
-sudo service docker restart
 
 sudo service docker start
 sudo chkconfig docker on
+
+sudo service jenkins restart
 

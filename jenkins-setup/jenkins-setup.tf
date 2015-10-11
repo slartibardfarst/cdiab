@@ -4,13 +4,13 @@ provider "aws" {
 
 resource "aws_instance" "example" {
     count = 1
-    instance_type = "t2.micro"
+    instance_type = "t2.medium"
     ami = "ami-dc2fcbef"
     security_groups = ["sg-87fe40e3"]
     subnet_id = "subnet-4591171c"
     key_name = "andrews-geo-dev-key-pair"
     tags {
-        Name = "aw-terraform-test-3"
+        Name = "cdiab-jenkins-server"
     }
     
     connection {
