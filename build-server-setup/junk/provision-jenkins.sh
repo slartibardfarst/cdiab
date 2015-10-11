@@ -1,3 +1,15 @@
+#!/bin/bash
+
+
+#http://urbanautomaton.com/blog/2014/09/09/redirecting-bash-script-output-to-syslog/
+exec 1> >(logger -s -t $(basename $0)) 2>&1
+
+#https://alestic.com/2010/12/ec2-user-data-output/
+#sudo touch     /var/log/user-data.log
+#sudo chmod 666 /var/log/user-data.log
+#sudo chmod 666 /dev/console
+#exec > >(tee /var/log/user-data.log|logger -t $(basename $0) -s 2>/dev/console) 2>&1
+
 sudo yum -y update
 
 #Java
@@ -8,7 +20,8 @@ sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenk
 sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
 sudo yum -y install jenkins
 
-
+sudo service jenkins start
+sudo chkconfig jenkins on
 
 # Docker
 if [rpm -qa | grep docker | wc -l > 0]; then
@@ -26,8 +39,8 @@ sudo service docker restart
 sudo service docker start
 sudo chkconfig docker on
 
-sudo service jenkins start
-sudo chkconfig jenkins on
+
+
 
 #Node
 #pushd .
@@ -75,3 +88,25 @@ sudo unzip terraform_0.6.3_linux_amd64.zip
 sudo mv --force terraform* /usr/bin
 sudo rm -rf /tmp/*
 popd
+
+
+
+while [ 0 -eq `curl -s -I localhost:8080 | grep "Jenkins" | wc -l` ]
+do
+   echo "waiting for Jenkins to start..."
+   sleep 5
+done
+echo "Jenkins is running!"
+
+
+sudo cd /tmp
+sudo wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+UPDATE_LIST=$( java -jar ./jenkins-cli.jar -s http://127.0.0.1:8080/ list-plugins | grep -e ')$' | awk '{ print $1 }' ); 
+UPDATE_LIST="$UPDATE_LIST greenballs build-name-setter github"
+echo "Jenkins plugins to update: " $UPDATE_LIST
+
+if [ ! -z "${UPDATE_LIST}" ]; then
+    echo Updating Jenkins Plugins: ${UPDATE_LIST};
+    java -jar ./jenkins-cli.jar -s http://127.0.0.1:8080/ install-plugin ${UPDATE_LIST};
+    java -jar ./jenkins-cli.jar -s http://127.0.0.1:8080/ safe-restart;
+fi
